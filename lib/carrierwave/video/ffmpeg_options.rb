@@ -1,12 +1,13 @@
 module CarrierWave
   module Video
     class FfmpegOptions
-      attr_reader :format, :resolution, :custom, :callbacks
+      attr_reader :format, :resolution, :custom, :input_options, :callbacks
 
       def initialize(format, options)
         @format = format.to_s
         @resolution = options[:resolution] || "640x360"
         @custom = options[:custom]
+        @input_options = options[:input_options]
         @callbacks = options[:callbacks] || {}
         @logger = options[:logger]
         @unparsed = options
@@ -32,7 +33,7 @@ module CarrierWave
       end
 
       def encoder_options
-        { preserve_aspect_ratio: @preserve_aspect_ratio }
+        { preserve_aspect_ratio: @preserve_aspect_ratio, input_options: @input_options }
       end
 
       # input
